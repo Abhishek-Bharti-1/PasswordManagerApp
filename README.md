@@ -22,6 +22,14 @@ This app allows users to **store, view, and generate strong passwords** with an 
 - Toast-based error handling  
 - Responsive and clean UI  
 
+### 🛡️ Security Features
+
+- Biometric Login
+  - Fingerprint Credential
+  - Secure authentication before accessing the app
+- Encrypted password storage (AES encryption)
+- No sensitive data stored in plaintext
+
 ---
 
 ## 🧱 Architecture Overview
@@ -45,7 +53,8 @@ The project follows **Clean Architecture** and **MVVM**, ensuring testability, s
 - Jetpack Compose UI  
 - Koin-based ViewModels  
 - StateFlow for reactive state  
-- Bottom sheets & custom components  
+- Bottom sheets & custom components
+- Biometric login screen  
 
 ---
 
@@ -57,6 +66,7 @@ The project follows **Clean Architecture** and **MVVM**, ensuring testability, s
 | Architecture | MVVM + Clean Architecture |
 | Dependency Injection | Koin |
 | Database | Room |
+| Security | Biometrics API + AES Encryption |
 | Async | Coroutines & Flow |
 | Language | Kotlin |
 | State Management | StateFlow, SharedFlow |
@@ -68,22 +78,23 @@ The project follows **Clean Architecture** and **MVVM**, ensuring testability, s
 ```
 
 /domain
-/model
-/repository
-/usecase
+ /model
+ /repository
+ /usecase
 
 /data
-/local
-/dao
-/database
-/entity
-/repository
+ /local
+ /dao
+ /database
+ /entity
+ /repository
 
 /ui
-/screens
-/home
-/add_edit
-/components
+ /screens
+  /home
+  /auth
+  /add_edit
+ /components
 
 /di (Koin Modules)
 
@@ -98,7 +109,13 @@ The project follows **Clean Architecture** and **MVVM**, ensuring testability, s
 - Always white background  
 - Floating “Add” button  
 - Top App Bar → *Password Manager*  
-- Opens Add/Edit bottom sheet  
+- Opens Add/Edit bottom sheet
+
+### 🔐 Biometric Login Screen
+- Automatically triggers biometric prompt
+- Fingerprint / Face Unlock / Device Credential
+- Navigates to Home on successful authentication
+
 
 ### ➕ **Add/Edit Password Bottom Sheet**
 Includes:
@@ -107,7 +124,7 @@ Includes:
 - Password field with eye toggle  
 - Underlined “Generate Password” button  
 - Password strength meter (Weak → Orange, Medium → Yellow, Strong → Green)  
-- “Add New Account” button styled like mockup  
+- “Add New Account” button
 
 ### 🔑 **PasswordItem**
 Styled card showing:
@@ -122,7 +139,7 @@ Styled card showing:
 ### 1️⃣ Clone the repo
 ```bash
 git clone https://github.com/Abhishek-Bharti-1/PasswordManagerApp.git
-cd password-manager
+cd PasswordManagerApp
 ````
 
 ### 2️⃣ Open in Android Studio
@@ -147,7 +164,6 @@ cd password-manager
 
 ## 🧪 Future Enhancements
 
-* Biometric unlock (Fingerprint/FaceID)
 * SQLCipher for encrypted database
 * Password categories (Work/Personal/Banking)
 * Search bar
