@@ -17,7 +17,7 @@ fun StrengthMeter(password: String) {
         color = when (level) {
             "Weak" -> Color.Red
             "Medium" -> Color(0xFFFFA500)
-            else -> Color.Green
+            else -> Color(0xFF147D07)
         }
     )
 }

@@ -58,19 +58,16 @@ fun PasswordDetailsBottomSheet(
             Text(
                 text = "Account Details",
                 fontSize = 18.sp,
-                color = Color(0xFF2563EB), // Blue like screenshot
+                color = Color(0xFF2563EB),
                 style = TextStyle(fontWeight = FontWeight.Bold)
             )
 
             Spacer(Modifier.height(24.dp))
 
-            // Account Type
-            DetailSection(label = "Account Type", value = password.accountType)
+            DetailSection(label = "Account Name", value = password.accountType)
 
-            // Email / Username
             DetailSection(label = "Username/ Email", value = password.username)
 
-            // Password section
             Text(
                 text = "Password",
                 fontSize = 13.sp,

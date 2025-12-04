@@ -14,10 +14,13 @@ import com.example.passwordmanagerapplication.domain.usecase.GetPasswordsUseCase
 import com.example.passwordmanagerapplication.domain.usecase.UpdatePasswordUseCase
 import com.example.passwordmanagerapplication.ui.screens.add_edit.AddEditPasswordViewModel
 import com.example.passwordmanagerapplication.ui.screens.home.HomeViewModel
+import com.example.passwordmanagerapplication.data.security.BiometricAuthenticator
+import com.example.passwordmanagerapplication.ui.screens.auth.AuthViewModel
 
 val appModule = module {
 
-    // DATABASE
+    single { BiometricAuthenticator() }
+
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -59,5 +62,9 @@ val appModule = module {
             addUseCase = get(),
             updateUseCase = get()
         )
+    }
+
+    factory {
+        AuthViewModel(get())
     }
 }
