@@ -1,4 +1,8 @@
 package com.example.passwordmanagerapplication.ui.screens.auth
 
-class AuthViewModel {
+
+import androidx.lifecycle.ViewModel
+
+class AuthViewModel : ViewModel() {
+    var isAuthenticated = false
 }

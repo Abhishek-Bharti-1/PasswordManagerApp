@@ -1,4 +1,17 @@
 package com.example.passwordmanagerapplication.domain.usecase
 
-class UpdatePasswordUseCase {
+import com.example.passwordmanagerapplication.domain.model.Password
+import com.example.passwordmanagerapplication.domain.repository.PasswordRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+
+class UpdatePasswordUseCase(
+    private val repository: PasswordRepository
+) {
+    suspend operator fun invoke(password: Password) {
+        withContext(Dispatchers.IO) {   // ✅ Forces background thread
+            repository.updatePassword(password)
+        }
+    }
 }
