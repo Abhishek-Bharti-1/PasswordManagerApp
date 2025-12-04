@@ -162,10 +162,3 @@ Please follow **MVVM + Clean Architecture** and the project structure.
 
 ---
 
-
-
-✅ GitHub badges  
-✅ A cover banner  
-✅ A project logo  
-Just tell me!
-```
