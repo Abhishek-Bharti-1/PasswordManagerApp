@@ -25,9 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import com.example.passwordmanagerapplication.domain.model.Password
+import com.example.passwordmanagerapplication.ui.components.AddEditPasswordBottomSheet
+import com.example.passwordmanagerapplication.ui.components.PasswordDetailsBottomSheet
 import com.example.passwordmanagerapplication.ui.components.PasswordItem
-import com.example.passwordmanagerapplication.ui.components.PrimaryButton
-import com.example.passwordmanagerapplication.ui.screens.add_edit.AddEditPasswordBottomSheet
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,8 +38,30 @@ fun HomeScreen(
     onItemClick: (Long) -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
-    var showSheet by remember { mutableStateOf(false) }
+    var showAddSheet by remember { mutableStateOf(false) }
+    var showViewPasswordSheet by remember { mutableStateOf(false) }
     val passwords by viewModel.passwords.collectAsState()
+    var selectedPassword by remember { mutableStateOf<Password?>(null) }
+    var isEdit by remember { mutableStateOf(false) }
+
+    if (showViewPasswordSheet && selectedPassword != null) {
+        PasswordDetailsBottomSheet(
+            password = selectedPassword!!,
+            onEdit = { pwd ->
+                showViewPasswordSheet = false
+                isEdit = true
+                selectedPassword = pwd
+                showAddSheet = true
+            },
+            onDelete = {
+                viewModel.deletePassword(it)
+                showViewPasswordSheet = false
+                selectedPassword = null
+            },
+            onDismiss = { showViewPasswordSheet = false
+            selectedPassword = null}
+        )
+    }
 
     Scaffold(
         modifier = Modifier
@@ -57,12 +80,15 @@ fun HomeScreen(
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White
+                    containerColor = Color(0xFFF3F4F6)
                 )
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showSheet = true }) {     // ✅ Floating Add Button
+            FloatingActionButton(onClick = {
+                selectedPassword = null
+                showAddSheet = true
+            }) {     // ✅ Floating Add Button
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Password",
@@ -75,7 +101,7 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)     // ✅ Extra safety
+                .background(Color(0xFFF3F4F6))     // ✅ Extra safety
                 .padding(innerPadding)
         ) {
 
@@ -83,16 +109,20 @@ fun HomeScreen(
                 items(passwords) { password ->
                     PasswordItem(
                         password = password,
-                        onClick = { onItemClick(password.id.toLong()) }
+                        onClick = {
+                            selectedPassword = password
+                            showViewPasswordSheet = true
+                        }
                     )
                 }
             }
 
-            if (showSheet) {
+            if (showAddSheet) {
                 AddEditPasswordBottomSheet(
-                    onDismiss = { showSheet = false },
+                    onDismiss = { showAddSheet = false },
+                    existingPassword = selectedPassword,
                     onSaved = {
-                        showSheet = false
+                        showAddSheet = false
                     }
                 )
             }
